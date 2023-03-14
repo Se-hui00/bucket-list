@@ -52,7 +52,7 @@ const App = () => {
   const _loadTasks = async () => {
     try {
       const loadedTasks = await AsyncStorage.getItem('tasks');
-      setTasks(JSON.parse(loadedTasks || {}));
+      setTasks(JSON.parse(loadedTasks) || {});
     } catch (e) {
       console.error(e);
     }
@@ -72,16 +72,16 @@ const App = () => {
     prepare();
   }, []);
 
-  // const onLayoutRootView = useCallback(async () => {
-  //   if (isReady) {
-  //     // This tells the splash screen to hide immediately! If we call this after
-  //     // `setAppIsReady`, then we may see a blank screen while the app is
-  //     // loading its initial state and rendering its first pixels. So instead,
-  //     // we hide the splash screen once we know the root view has already
-  //     // performed layout.
-  //     await SplashScreen.hideAsync();
-  //   }
-  // }, [isReady]);
+  const onLayoutRootView = useCallback(async () => {
+    if (isReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [isReady]);
 
   if (!isReady) {
     return null;
